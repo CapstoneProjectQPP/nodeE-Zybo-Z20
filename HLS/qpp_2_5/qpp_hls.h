@@ -14,13 +14,13 @@
 #define dim 2 << n
 #define M 5
 #define SEED_LEN n * M * dim
-#define BLOCK_SIZE 16
+#define BUS_WIDTH 32
 
 
 typedef ap_uint<1> bit_t;
 typedef ap_uint<n> word_t;
 
-typedef ap_uint<BLOCK_SIZE> block_t;
+typedef ap_uint<BUS_WIDTH> block_t;
 
 extern "C" {
 // top function

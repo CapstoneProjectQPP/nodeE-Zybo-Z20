@@ -6,19 +6,14 @@
 *
 */
 
-void encrypt_word(hls::stream<word_t>& in, hls::stream<word_t>& out) {
-
-	word_t wrd = in.read();
-//	word_t x = (ap_uint<n>) seed[i*n];
-	word_t x = 0b10;
-	word_t m = wrd ^ x;
+void encrypt_word(word_t &word, word_t &c) {
+	word_t m = word ^ 0b10;
 //	uint8_t encoding = (uint8_t)m;
 //	word_t c = perms[x % M][encoding];
-
-	out.write(m);
+	c = m;
 }
 
-void encrypt_block(hls::stream<block_t>& in, hls::stream<block_t>& out, int size) {
+void encrypt_block(block_t* b_in, block_t *b_out, int block_size) {
 
 	block_t output_block;
 
@@ -26,20 +21,18 @@ void encrypt_block(hls::stream<block_t>& in, hls::stream<block_t>& out, int size
 	hls::stream<word_t> x;
 	hls::stream<word_t> c;
 
-#pragma HLS PIPELINE II=10
-	block_t text_block = in.read();
-	for(int j = 0; j < size; j++) {
-		for(int i = 0; i < BLOCK_SIZE/n; i++) {
-			m.write(text_block[i*n]);
-//			x.write((ap_uint<n>) seed[i*n]);
-//			encrypt_word(&m, &x, &c);
+#pragma HLS PIPELINE II=1
+	for(int i = 0; i < block_size/n; i++) {
+		block_t block = b_in[i];
+		block_t out_block;
+		for(int j = 0; j < BUS_WIDTH/n; i++) {
+			word_t m = (block >> (j+1*2)) & 0x03;
+			word_t c;
 			encrypt_word(m, c);
-
-			output_block[i*n] = c.read();
+			out_block |= c >> (j+1*2);
 		}
-		out.write(output_block);
+		b_out[i] = out_block;
 	}
-
 }
 
 
@@ -62,39 +55,18 @@ void encrypt_block(hls::stream<block_t>& in, hls::stream<block_t>& out, int size
 //}
 
 
-void load(block_t *b_in, hls::stream<block_t >& out, int size) {
-	for(int i = 0; i < size; i++) {
-
-		out.write(b_in[i]);
-	}
-}
-
-void store(hls::stream<block_t >& in, block_t *b_out, int size) {
-	for(int i = 0; i < size; i++) {
-
-		b_out[i] = in.read();
-	}
-}
-
-void encrypt(block_t *b_in, block_t *b_out, int size) {
-	hls::stream<block_t> c0, c1;
-
-#pragma HLS DATAFLOW
-	load(b_in, c0, size);
-	encrypt_block(c0, c1, size);
-	store(c1, b_out, size);
-}
 
 
 extern "C" {
 
 void qpp(block_t* b_in, block_t *b_out, int *control, int size) {
 
-#pragma HLS INTERFACE mode=m_axi bundle=BUS_A port=b_out depth=32
-#pragma HLS INTERFACE mode=m_axi bundle=BUS_A port=b_in depth=32
-#pragma HLS INTERFACE mode=s_axilite port=control bundle=ctrl
-#pragma HLS INTERFACE mode=s_axilite port=size bundle=ctrl
-#pragma HLS INTERFACE mode=s_axilite port=return bundle=ctrl
+
+    #pragma HLS INTERFACE m_axi port=b_in max_read_burst_length=16
+    #pragma HLS INTERFACE m_axi port=b_out max_write_burst_length=16
+    #pragma HLS INTERFACE s_axilite port=size bundle=CRTL_BUS
+    #pragma HLS INTERFACE s_axilite port=control bundle=CRTL_BUS
+    #pragma HLS INTERFACE s_axilite port=return bundle=CRTL_BUS
 
 	ap_uint<dim> perms[5][dim];
 	ap_uint<SEED_LEN> seed;
@@ -106,7 +78,7 @@ void qpp(block_t* b_in, block_t *b_out, int *control, int size) {
 //		load_seed(b_in, seed);
 	} else if (*control == 0x3C) {
 
-		encrypt(b_in, b_out, size);
+		encrypt_block(b_in, b_out, size);
 
 	}
 }
