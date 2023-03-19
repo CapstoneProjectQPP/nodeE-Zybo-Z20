@@ -22,6 +22,7 @@ typedef ap_uint<n> word_t;
 
 typedef ap_uint<BUS_WIDTH> block_t;
 
+
 extern "C" {
 // top function
 	void qpp(block_t* b_in, block_t *b_out, const int size, int *control);

@@ -3,21 +3,24 @@
 #include <iostream>
 #include <stdio.h>
 
-bool check_result(block_t res[TEST_SIZE]) {
-	for(int i = 0; i <= TEST_SIZE; i++) {
-		printf("%d\n", res[i]);
-		if(res[i] != test_result) {
-			return false;
+bool check_result(block_t res[TEST_SIZE], block_t com[TEST_SIZE]) {
+	bool result = true;
+    for(int i = 0; i < TEST_SIZE; i++) {
+		printf("%08x\n", (uint32_t)res[i]);
+		if(res[i] != com[i]) {
+			result = false;
 		}
-	}
-	return true;
+    }
+	return result;
 }
 
 int main() {
 
 	block_t test_out[TEST_SIZE];
+	block_t helloworld[TEST_SIZE];
+	printf("Plain text : \n");
 	for(int i = 0; i < TEST_SIZE; i++) {
-		printf("%d\n", (int)test_data[i]);
+		printf("%08x\n", (uint32_t)test_data[i]);
 
 	}
 	int ctrl;
@@ -26,34 +29,40 @@ int main() {
 
 	qpp(test_perms, test_out, 2, &ctrl);
 
-	while(ctrl != 0x0B);
+//	ctrl = 0xF0;
+//
+//	qpp(&test_seed, test_out, 1, &ctrl);
 
-	ctrl = 0xF0;
+	ctrl = 0x81;
 
-	qpp(&test_seed, test_out, 1, &ctrl);
-
-	while(ctrl != 0x0A);
-
+	qpp(test_t_perms, test_out, 2, &ctrl);
 
 
 	ctrl = 0x3C;
 
 	qpp(test_data, test_out, TEST_SIZE, &ctrl);
 
-//	bool result = check_result(test_out);
+	printf("Cypher text : \n");
+	bool result1 = check_result(test_out, test_result);
 
-	printf("%d\n", (int)ctrl);
-	bool result = true;
-	for(int i = 0; i < TEST_SIZE; i++) {
-		printf("%d\n", (int)test_out[i]);
-		if((int)test_out[i] != (int)test_result[i]) {
-			result = false;
-		}
-	}
-	if(result == true) {
-		printf("test passed\n");
+	ctrl = 0x11;
+
+	qpp(test_out, helloworld, TEST_SIZE, &ctrl);
+
+	printf("Plain text : \n");
+	bool result2 = check_result(helloworld, test_data);
+
+
+	if(result1 == true) {
+		printf("encrypt passed\n");
 	} else {
-		printf("test failed\n");
+		printf("encrypt failed\n");
+	}
+
+	if(result2 == true) {
+		printf("decrypt passed\n");
+	} else {
+		printf("decrypt failed\n");
 	}
 
 	return 0;
