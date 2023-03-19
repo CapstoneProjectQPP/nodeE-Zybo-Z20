@@ -1,0 +1,5 @@
+# Log files
+*.log
+
+# HLS project directory
+qpp_2_5/
