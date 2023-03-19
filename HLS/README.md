@@ -1,4 +1,4 @@
-HLS project import instructions
+# HLS project import instructions
 
 1. Open the Vitis HLS terminal
 
@@ -40,3 +40,6 @@ Press Open
 
 
 6. Check simulation output in qpp_csim.log
+
+![image](https://user-images.githubusercontent.com/76540445/226195095-7d0c4a93-46eb-486b-9426-8ef3492cb892.png)
+
