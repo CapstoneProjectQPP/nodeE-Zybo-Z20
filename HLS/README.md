@@ -1,6 +1,6 @@
-For resources on using Vitis HLS see
-Vitis HLS Introductory Exampes : https://github.com/Xilinx/Vitis-HLS-Introductory-Examples
-Vitis HLS User Guide (ug1399) : https://docs.xilinx.com/r/en-US/ug1399-vitis-hls
+For resources on using Vitis HLS see </br>
+Vitis HLS Introductory Exampes : https://github.com/Xilinx/Vitis-HLS-Introductory-Examples </br>
+Vitis HLS User Guide (ug1399) : https://docs.xilinx.com/r/en-US/ug1399-vitis-hls </br>
 
 # HLS project import instructions
 
