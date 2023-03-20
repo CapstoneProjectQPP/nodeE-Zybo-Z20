@@ -1,3 +1,7 @@
+For resources on using Vitis HLS see
+Vitis HLS Introductory Exampes : https://github.com/Xilinx/Vitis-HLS-Introductory-Examples
+Vitis HLS User Guide (ug1399) : https://docs.xilinx.com/r/en-US/ug1399-vitis-hls
+
 # HLS project import instructions
 
 1. Open the Vitis HLS terminal
