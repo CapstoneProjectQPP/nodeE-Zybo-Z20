@@ -12,13 +12,13 @@ The instructions contained in "PetaLinux Notes Part 02" were followed to build a
 2. Open a serial terminal on your host machine to connect with the Zybo-Z20 as described in "PetaLinux Notes Part 02" linked above. </br>
 3. Assign an IP address and subnet mask to the Ethernet interface on the Zybo-Z20.
 </br>
-a) Use
+a) Use following command to list all network interfaces. The Ethernet interface should be named "eth0". </br>
 
 ```ruby
 $ fconfig
 ``` 
 
-to list all network interfaces. The Ethernet interface should be named "eth0". </br>
+
 b) Bring down the Ethernet interface: </br>
 ``$ ifconfig <interface-name> down``</br>
 c) Assign a static IP address and subnet mask </br>
@@ -38,7 +38,12 @@ $ sudo ifconfig enp3s0 192.168.1.11 netmask 255.255.255.0
 $ sudo ifconfig enp3s0 up
 ```
 </br>
-5. Verify the connection such as using the ``ping`` command.
+5. Verify the connection such as using the 
+
+```ruby
+ping
+```
+command.
 </br>
 eg.
 From the host machine terminal:
