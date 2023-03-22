@@ -9,34 +9,8 @@
  * In 32 bit blocks : 0x43656c6c, 0x6f002057, 0x6f726c64
  */
 block_t test_data[TEST_SIZE] = {
-		0x43656c6c, 0x6f002057, 0x6f726c64
+		0x48656c6c, 0x6f002057, 0x6f726c64
 };
-
-
-///*
-//* perm 0 : 01, 10, 00, 11 = 0x63
-//* perm 1 : 10, 01, 00, 11 = 0x93
-//* perm 2 : 01, 11, 10, 00 = 0x78
-//* perm 3 : 00, 11, 10, 01 = 0x39
-//* perm 4 : 00, 11, 01, 10 = 0x36
-//* In 32 bit blocks : 0x63937939 , 0x36000000 <- padded with zeros
-//*/
-//block_t test_perms[2] = {
-//		0x63937839, 0x36000000
-//};
-//
-//
-///*
-//* perm 0 : 10, 00, 01, 11 = 0x87
-//* perm 1 : 10, 01, 00, 11 = 0x93
-//* perm 2 : 11, 00, 10, 01 = 0xC9
-//* perm 3 : 00, 11, 10, 01 = 0x39
-//* perm 4 : 00, 10, 11, 01 = 0x2D
-//* In 32 bit blocks : 0x8793C939 , 0x2D000000 <- padded with zeros
-//*/
-//block_t test_t_perms[2] = {
-//		0x8793C939 , 0x2D000000
-//};
 
 
 /*
@@ -45,16 +19,10 @@ block_t test_data[TEST_SIZE] = {
 * perm 2 : 01, 11, 10, 00 = 0x78
 * perm 3 : 00, 11, 10, 01 = 0x39
 * perm 4 : 00, 11, 01, 10 = 0x36
-*
-* perm 0 : 10, 00, 01, 11 = 0x87
-* perm 1 : 10, 01, 00, 11 = 0x93
-* perm 2 : 11, 00, 10, 01 = 0xc9
-* perm 3 : 00, 11, 10, 01 = 0x39
-* perm 4 : 00, 10, 11, 01 = 0x2d
-* In 32 bit blocks : 0x8793c939 , 0xd000000 <- padded with zeros
+* In 32 bit blocks : 0x63937839 , 0x36000000 <- padded with zeros
 */
 block_t test_perms[2] = {
-		0x8793c939, 0x2d000000
+		0x63937839, 0x36000000
 };
 
 
@@ -64,17 +32,49 @@ block_t test_perms[2] = {
 * perm 2 : 11, 00, 10, 01 = 0xC9
 * perm 3 : 00, 11, 10, 01 = 0x39
 * perm 4 : 00, 10, 11, 01 = 0x2D
-*
-* perm 0 : 01, 10, 00, 11 = 0x63
-* perm 1 : 10, 01, 00, 11 = 0x93
-* perm 2 : 01, 11, 10, 00 = 0x78
-* perm 3 : 00, 11, 10, 01 = 0x39
-* perm 4 : 00, 11, 01, 10 = 0x36
-* In 32 bit blocks : 0x63937839 , 0x36000000 <- padded with zeros
+* In 32 bit blocks : 0x8793C939 , 0x2D000000 <- padded with zeros
 */
 block_t test_t_perms[2] = {
-		0x63937839 , 0x36000000
+		0x8793C939 , 0x2D000000
 };
+
+
+///*
+//* perm 0 : 01, 10, 00, 11 = 0x63
+//* perm 1 : 10, 01, 00, 11 = 0x93
+//* perm 2 : 01, 11, 10, 00 = 0x78
+//* perm 3 : 00, 11, 10, 01 = 0x39
+//* perm 4 : 00, 11, 01, 10 = 0x36
+//*
+//* perm 0 : 10, 00, 01, 11 = 0x87
+//* perm 1 : 10, 01, 00, 11 = 0x93
+//* perm 2 : 11, 00, 10, 01 = 0xc9
+//* perm 3 : 00, 11, 10, 01 = 0x39
+//* perm 4 : 00, 10, 11, 01 = 0x2d
+//* In 32 bit blocks : 0x8793c939 , 0xd000000 <- padded with zeros
+//*/
+//block_t test_perms[2] = {
+//		0x8793c939, 0x2d000000
+//};
+//
+//
+///*
+//* perm 0 : 10, 00, 01, 11 = 0x87
+//* perm 1 : 10, 01, 00, 11 = 0x93
+//* perm 2 : 11, 00, 10, 01 = 0xC9
+//* perm 3 : 00, 11, 10, 01 = 0x39
+//* perm 4 : 00, 10, 11, 01 = 0x2D
+//*
+//* perm 0 : 01, 10, 00, 11 = 0x63
+//* perm 1 : 10, 01, 00, 11 = 0x93
+//* perm 2 : 01, 11, 10, 00 = 0x78
+//* perm 3 : 00, 11, 10, 01 = 0x39
+//* perm 4 : 00, 11, 01, 10 = 0x36
+//* In 32 bit blocks : 0x63937839 , 0x36000000 <- padded with zeros
+//*/
+//block_t test_t_perms[2] = {
+//		0x63937839 , 0x36000000
+//};
 
 
 /*
@@ -82,7 +82,7 @@ block_t test_t_perms[2] = {
  * In 32 bit blocks : 0xA8C7DE96, 0x666409FB, 0xEB4180C5
  */
 block_t test_result[TEST_SIZE] = {
-		0xA8C7DE96, 0x666409FB, 0xEB4180C5
+		0xA8C7DEE9, 0x666409FB, 0xEB4180C5
 };
 
 

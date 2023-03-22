@@ -24,7 +24,7 @@ void decrypt_word(int i, int j, word_t &word, word_t &x, word_t &m) {
 }
 
 
-void encrypt_block(block_t* b_in, block_t *b_out, const int block_size, int *control) {
+void encrypt_block(block_t* b_in, block_t *b_out, const int block_size) {
 	for(int i = 0; i < block_size; i++) {
 #pragma HLS PIPELINE II=1
 		block_t block = b_in[i];
@@ -36,18 +36,17 @@ void encrypt_block(block_t* b_in, block_t *b_out, const int block_size, int *con
 			word_t c;
 			word_t x = (rn & (mask >> j*n)) >> rightoffset;
 			encrypt_word(i, j, m, x, c);
+//			hls::print("mask: %08x\n", (int)moving_mask);
+//			hls::print("plaintext: %08x\n", (int)m);
 //			hls::print("cypher: %08x\n", (int)c);
 			out_block |= (uint32_t)c << (rightoffset);
 //			hls::print("out_block: %08x\n", (int)out_block);
 		}
 		b_out[i] = out_block;
-		if(i == block_size-1) {
-			*control = 0xCC;
-		}
 	}
 }
 
-void decrypt_block(block_t* b_in, block_t *b_out, const int block_size, int *control) {
+void decrypt_block(block_t* b_in, block_t *b_out, const int block_size) {
 	for(int i = 0; i < block_size; i++) {
 #pragma HLS PIPELINE II=1
 		block_t block = b_in[i];
@@ -62,9 +61,6 @@ void decrypt_block(block_t* b_in, block_t *b_out, const int block_size, int *con
 			out_block |= (uint32_t)m << (rightoffset);
 		}
 		b_out[i] = out_block;
-		if(i == block_size-1) {
-			*control = 0xCC;
-		}
 	}
 }
 
@@ -76,7 +72,6 @@ void load_perms(block_t* b_in, int size) {
 	int block_num = 0;
 	int block_pos = 0;
 	int rightoffset = BUS_WIDTH - n;
-	block_t buffer[size];
 	uint32_t moving_mask;
 	perms_loop1: for(int i = 0; i < M; i++) {
 		perms_loop2: for(int j = 0; j < dim; j++) {
@@ -110,11 +105,7 @@ void load_t_perms(block_t* b_in, int size) {
 	int block_num = 0;
 	int block_pos = 0;
 	int rightoffset = BUS_WIDTH - n;
-	block_t buffer[size];
 	uint32_t moving_mask;
-//	for(int i = 0; i < size; i++) {
-//		buffer[i] = b_in[i];
-//	}
 	perms_loop1: for(int i = 0; i < M; i++) {
 		perms_loop2: for(int j = 0; j < dim; j++) {
 			// lead each element of the matrix from input block
@@ -172,9 +163,9 @@ void qpp(block_t* b_in, block_t *b_out, const int size, int *control) {
 	} else if (*control == 0xF0) {
 		seed = b_in[0];
 	} else if (*control == 0x3C) {
-		encrypt_block(b_in, b_out, size, control);
+		encrypt_block(b_in, b_out, size);
 	} else if (*control == 0x11) {
-		decrypt_block(b_in, b_out, size, control);
+		decrypt_block(b_in, b_out, size);
 	}
 }
 
