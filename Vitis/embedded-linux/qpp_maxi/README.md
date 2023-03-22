@@ -18,12 +18,15 @@ a) Use ``$ ifconfig`` to list all network interfaces. The Ethernet interface sho
 b) Bring down the Ethernet interface: </br>
 ``$ ifconfig <interface-name> down``</br>
 c) Assign a static IP address and subnet mask </br>
-``$ ifconfig <interface-name> <ip-address> netmask <subnet-mask>``</br>
-eg. </br> ``$ ifconfig eth0 192.168.1.10 netmask 255.255.255.0``</br>
+``$ ifconfig <interface-name> <ip-address> netmask <subnet-mask>`` </br>
+eg. </br> ``$ ifconfig eth0 192.168.1.10 netmask 255.255.255.0`` </br>
 d) Bring the Ethernet interface back up: </br>
-``$ ifconfig <interface-name> up`` </br></br>
+``$ ifconfig <interface-name> up``
+</br>
+</br>
 4. Assign an IP address and subnet mask to the Ethernet interface on your host machine. </br>
-If your hostmachine is running a Linux OS, you can follow the same steps as above. Make sure to select a different static IP address than was assigned to the Zybo-Z20. The Ethernet interface name may be different on your machine, such as ``enp3s0`` instead of ``eth0``. Make sure to check your Ethernet interface name using ``ifconfig``. If you shell does not have root access, you will need to preface the ifconfig commands with ``sudo``. </br>
+If your hostmachine is running a Linux OS, you can follow the same steps as above. Make sure to select a different static IP address than was assigned to the Zybo-Z20. The Ethernet interface name may be different on your machine, such as ``enp3s0`` instead of ``eth0``. Make sure to check your Ethernet interface name using ``ifconfig``. If you shell does not have root access, you will need to preface the ifconfig commands with ``sudo``.
+</br>
 eg.
 ```
 $ sudo ifconfig enp3s0 down
@@ -35,7 +38,8 @@ $ sudo ifconfig enp3s0 up
 </br>
 eg.
 From the host machine terminal:
-``ping 192.168.1.0`` </br>
+``ping 192.168.1.0``
+</br>
 You should see similar output in your terminal as below. </br>
 ```
 PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
@@ -53,3 +57,5 @@ root@LinuxBoot:~#
 ```
 </br>
 # Program Device
+</br>
+...
