@@ -56,7 +56,9 @@ PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
 64 bytes from 192.168.1.10: icmp_seq=4 ttl=64 time=0.402 ms
 ```
 </br>
-6. SSH into the Zybo-Z20 from the host machine with the command ``$ ssh [username]@[target-ip-address]`` . You will need to enter the password of the target's username. The default PetaLinux configuration is username: root, password: root
+6. SSH into the Zybo-Z20 from the host machine with the command
+``$ ssh [username]@[target-ip-address]``
+. You will need to enter the password of the target's username. The default PetaLinux configuration is username: root, password: root </br>
 ```
 $ ssh root@192.168.1.10
 root@192.168.1.10's password: 
