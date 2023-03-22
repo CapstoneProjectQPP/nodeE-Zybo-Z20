@@ -15,7 +15,7 @@ The instructions contained in "PetaLinux Notes Part 02" were followed to build a
 a) Use following command to list all network interfaces. The Ethernet interface should be named "eth0". </br>
 
 ```ruby
-$ fconfig
+$ ifconfig
 ``` 
 
 
@@ -40,14 +40,12 @@ $ sudo ifconfig enp3s0 up
 </br>
 5. Verify the connection such as using the 
 
-```ruby
-ping
-```
+``ping``
 command.
 </br>
 eg.
 From the host machine terminal:
-``ping 192.168.1.0``
+``$ ping 192.168.1.0``
 </br>
 You should see similar output in your terminal as below. </br>
 ```
@@ -58,7 +56,7 @@ PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
 64 bytes from 192.168.1.10: icmp_seq=4 ttl=64 time=0.402 ms
 ```
 </br>
-6. SSH into the Zybo-Z20 from the host machine with the command ``$ ssh <username>@<target-ip-address>`` . You will need to enter the password of the target's username. The default PetaLinux configuration is username: root, password: root
+6. SSH into the Zybo-Z20 from the host machine with the command ``$ ssh [username]@[target-ip-address]`` . You will need to enter the password of the target's username. The default PetaLinux configuration is username: root, password: root
 ```
 $ ssh root@192.168.1.10
 root@192.168.1.10's password: 
