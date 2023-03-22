@@ -4,12 +4,10 @@
 3. Program device
 
 # Linux set-up
-</br>
 Steven Knudsen has put together a comprehensive tutorial on building a Linux kernel for the Zynq-7000 using the PetaLinux CLI tools. This tutorial is available on his Github repository. https://github.com/StevenKnudsen/PetaLinux2022.2_Zybo_example/blob/main/docs/PetaLinux/PetaLinux%20Notes%20Part%202.md </br>
 The instructions contained in "PetaLinux Notes Part 02" were followed to build and deploy a kernel to the Zybo-Z20 for this project.
 </br></br>
 # SSH over Ethernet
-</br>
 1. Connect the Zybo-Z20 with your host machine using an Ethernet cable. </br>
 2. Open a serial terminal on your host machine to connect with the Zybo-Z20 as described in "PetaLinux Notes Part 02" linked above. </br>
 3. Assign an IP address and subnet mask to the Ethernet interface on the Zybo-Z20.
