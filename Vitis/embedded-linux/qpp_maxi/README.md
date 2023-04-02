@@ -36,7 +36,7 @@ d) Bring the Ethernet interface back up: </br>
 If your hostmachine is running a Linux OS, you can follow the same steps as above. Make sure to select a different static IP address than was assigned to the Zybo-Z20. The Ethernet interface name may be different on your machine, such as ``enp3s0`` instead of ``eth0``. Make sure to check your Ethernet interface name using ``ifconfig``. If you shell does not have root access, you will need to preface the ifconfig commands with ``sudo``.
 </br>
 eg. </br>
-```
+```ruby
 $ sudo ifconfig enp3s0 down
 $ sudo ifconfig enp3s0 192.168.1.11 netmask 255.255.255.0
 $ sudo ifconfig enp3s0 up
