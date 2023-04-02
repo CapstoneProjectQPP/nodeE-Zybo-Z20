@@ -42,7 +42,7 @@ $ sudo ifconfig enp3s0 192.168.1.11 netmask 255.255.255.0
 $ sudo ifconfig enp3s0 up
 ```
 </br>
-
+</br>
 5. Verify the connection such as using the 
 
 ``ping``
