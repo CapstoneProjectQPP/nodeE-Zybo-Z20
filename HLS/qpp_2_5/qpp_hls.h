@@ -37,7 +37,7 @@ void load(hls::stream<block_t >& in, block_t *b_out, int size);
 
 void store(block_t *b_in, hls::stream<block_t >& out, int size);
 
-void load_perms(block_t* b_in);
+void load_perms(block_t* b_in, int size, ap_uint<n> perms[5][dim]);
 
 block_t prng();
 

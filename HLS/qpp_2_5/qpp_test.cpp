@@ -29,9 +29,9 @@ int main() {
 
 	qpp(test_perms, test_out, 2, &ctrl);
 
-//	ctrl = 0xF0;
-//
-//	qpp(&test_seed, test_out, 1, &ctrl);
+	ctrl = 0xF0;
+
+	qpp(test_seed, test_out, 1, &ctrl);
 
 	ctrl = 0x81;
 
@@ -44,6 +44,10 @@ int main() {
 
 	printf("Cypher text : \n");
 	bool result1 = check_result(test_out, test_result);
+
+	ctrl = 0xF0;
+
+	qpp(test_seed, test_out, 1, &ctrl);
 
 	ctrl = 0x11;
 

@@ -2,25 +2,24 @@
 #include "hls_print.h"
 #include "stdint.h"
 
+
 ap_uint<n> perms[5][dim];
+
 ap_uint<n> t_perms[5][dim];
 
 ap_uint<32> seed;
-
 
 uint32_t mask = (0x03 << (BUS_WIDTH - n));
 
 
 void encrypt_word(int i, int j, word_t &word, word_t &x, word_t &c) {
-//	word_t m = word ^ x;
-//	c = perms[x % M][(int)m];
-	c = perms[(int)(((i*BUS_WIDTH/n) + j )% M)][(int)word];
+	word_t m = word ^ x;
+	c = perms[x % M][(int)m];
 }
 
 void decrypt_word(int i, int j, word_t &word, word_t &x, word_t &m) {
-//	word_t m = word ^ x;
-//	c = perms[x % M][(int)m];
-	m = t_perms[(int)(((i*BUS_WIDTH/n) + j )% M)][(int)word];
+	word_t c = t_perms[x % M][(int)word];
+	m = c ^ x;
 }
 
 
@@ -34,13 +33,9 @@ void encrypt_block(block_t* b_in, block_t *b_out, const int block_size) {
 			uint32_t moving_mask = mask >> j*n;
 			word_t m = (block & moving_mask) >> rightoffset;
 			word_t c;
-			word_t x = (rn & (mask >> j*n)) >> rightoffset;
+			word_t x = (rn & moving_mask) >> rightoffset;
 			encrypt_word(i, j, m, x, c);
-//			hls::print("mask: %08x\n", (int)moving_mask);
-//			hls::print("plaintext: %08x\n", (int)m);
-//			hls::print("cypher: %08x\n", (int)c);
 			out_block |= (uint32_t)c << (rightoffset);
-//			hls::print("out_block: %08x\n", (int)out_block);
 		}
 		b_out[i] = out_block;
 	}
@@ -56,7 +51,7 @@ void decrypt_block(block_t* b_in, block_t *b_out, const int block_size) {
 			uint32_t moving_mask = mask >> j*n;
 			word_t c = (block & moving_mask) >> rightoffset;
 			word_t m;
-			word_t x = (rn & (mask >> j*n)) >> rightoffset;
+			word_t x = (rn & moving_mask) >> rightoffset;
 			decrypt_word(i, j, c, x, m);
 			out_block |= (uint32_t)m << (rightoffset);
 		}
@@ -82,10 +77,6 @@ void load_perms(block_t* b_in, int size) {
 			perms[i][j] = p;
 			block_pos++;
 			rightoffset -= n;
-//			hls::print("moving_mask: %08x\n", (int)moving_mask);
-//			hls::print("rightoffset: %08x\n", rightoffset);
-//			hls::print("block: %08x\n", (int)b_in[block_num]);
-//			hls::print("perm: %08x\n", (int)perms[i][j]);
 
 			// move block number and reset position once all bits from current block have been read
 			if(block_pos == BUS_WIDTH/2) {
@@ -155,6 +146,10 @@ void qpp(block_t* b_in, block_t *b_out, const int size, int *control) {
     #pragma HLS INTERFACE s_axilite port=size
     #pragma HLS INTERFACE s_axilite port=control
     #pragma HLS INTERFACE s_axilite port=return
+
+	#pragma HLS ARRAY_PARTITION variable=perms type=complete dim=2
+	#pragma HLS ARRAY_PARTITION variable=t_perms type=complete dim=2
+
 
 	if(*control == 0x0F) {
 		load_perms(b_in, size);
