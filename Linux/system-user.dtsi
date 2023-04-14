@@ -1,0 +1,43 @@
+/include/ "system-conf.dtsi"
+/ {
+
+    qpp@40010000 {
+    
+	compatible = "qpp_0, generic-uio, ui_pdrv";
+ 	status = "okay";
+	interrupts = < 0 57 0 >;
+	interrupt-parent = <&intc>;
+    };
+    chosen { 	 
+
+	bootargs = "console=ttyPS0,115200 earlycon root=/dev/mmcblk0p2 rw rootwait uio_pdrv_genirq.of_id=generic-uio";
+
+    };
+    reserved_memory0 {
+    	device_type = "reserved_memory";
+	reg = <0x30000000 0x04000000>;
+	compatible = "generic-uio";
+    };
+    reserved_memory1 {
+    	device_type = "reserved_memory";
+	reg = <0x34000000 0x04000000>;
+	compatible = "generic-uio";
+    };
+    reserved_memory2 {
+    	device_type = "reserved_memory";
+	reg = <0x38000000 0x04000000>;
+	compatible = "generic-uio";
+    };
+    reserved_memory3 {
+    	device_type = "reserved_memory";
+	reg = <0x3C000000 0x04000000>;
+	compatible = "generic-uio";
+    };
+};
+
+
+&qpp_0
+    {
+	compatible = "generic-uio";
+    };
+    	
